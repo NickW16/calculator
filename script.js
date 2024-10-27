@@ -134,22 +134,41 @@ document.querySelector("#dot").addEventListener('click', function () {
         display.textContent += '.';
     }
 });
-document.querySelector("#equal").addEventListener('click', function () {
-    display.textContent += '=';
-});
 
-
+// this is the operation function
 function operate (a, b, operation) {
-    switch (operation) {
-        case '+':
-            return add(a, b);
-        case '-':
-            return subtract(a, b);
-        case '*':
-            return multiply(a, b);
-        case '/':
-            return divide(a, b);
-        default:
-            return null;
+    if (operation === '+') {
+        return add(a, b);
+    };
+    if (operation === '-') {
+        return subtract(a, b);
+    };
+    if (operation === '*') {
+        return multiply(a, b);
+    };
+    if (operation === '/') {
+        return divide(a, b);
+    } else {
+        return null;
     }
 }
+
+
+// this finishes the equation once '=' is pressed
+document.querySelector("#equal").addEventListener('click', function () {
+    const expression = display.textContent;
+    const parts = expression.split(/([\+\-\*\/])/);     // this part splits the string and turns it into an array
+
+    // this splits the array intro 3 parts: number 1, operator and number 2
+    if (parts.length === 3) {
+        let numbOne = parseFloat(parts[0].trim());
+        let operation = parts[1].trim();
+        let numbTwo = parseFloat(parts[2].trim());
+
+        // calls the function
+        let result = operate(numbOne, numbTwo, operation);
+
+        // displays the result
+        display.textContent = result;
+    }
+});
