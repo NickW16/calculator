@@ -160,7 +160,7 @@ document.querySelector("#equal").addEventListener('click', function () {
     const parts = expression.split(/([\+\-\*\/])/);     // this part splits the string and turns it into an array
 
     // this splits the array intro 3 parts: number 1, operator and number 2
-    if (parts.length === 3) {
+    if (parts.length === 3 && parts[2] != '0') {
         let numbOne = parseFloat(parts[0].trim());
         let operation = parts[1].trim();
         let numbTwo = parseFloat(parts[2].trim());
@@ -170,5 +170,7 @@ document.querySelector("#equal").addEventListener('click', function () {
 
         // displays the result
         display.textContent = result;
+    } else {
+        display.textContent = 'Nice Try';
     }
 });
