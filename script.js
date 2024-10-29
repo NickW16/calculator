@@ -206,8 +206,8 @@ function expressionResult (a) {
         // calls the function
         let result = operate(numbOne, numbTwo, operation);
         operatorCount = 0; // resets the operator
-        // displays the result
-        display.textContent = result;
+        dotCount = 0; // resets the dot count
+        display.textContent = result; // displays the result
  
     } else {
         display.textContent = 'Nice Try';
