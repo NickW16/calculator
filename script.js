@@ -49,6 +49,7 @@ document.querySelector("#plus-or-minus").addEventListener('click', function () {
     isPositive = !isPositive; // toggle feature
 });
 
+// PERCENTAGE
 let percentage = true;
 
 document.querySelector("#percentage").addEventListener('click', function () {
