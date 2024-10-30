@@ -1,22 +1,18 @@
 /* mathematic functions: */
 function add (a, b) {
-    let result = a + b;
-    return result
+    return a + b;
 };
 
 function subtract (a, b) {
-    let result = a - b;
-    return result
+    return a - b;
 };
 
 function multiply (a, b) {
-    let result = a * b;
-    return result
+    return a * b;
 };
 
 function divide (a, b) {
-    let result = a / b;
-    return result
+    return a / b;
 };
 
 /*
@@ -31,9 +27,7 @@ console.log(result);
 let numbOne = '';
 let numbTwo = '';
 let operation = '';
-
 let display = document.querySelector("#display");
-
 const MAX_LENGTH = 8; // display maximum length
 
 /* button functionalities: */
@@ -166,20 +160,25 @@ document.querySelector("#dot").addEventListener('click', function () {
 
 // this is the operation function
 function operate (a, b, operation) {
+    let result;
     if (operation === '+') {
-        return add(a, b);
-    };
-    if (operation === '-') {
-        return subtract(a, b);
-    };
-    if (operation === '*') {
-        return multiply(a, b);
-    };
-    if (operation === '/') {
-        return divide(a, b);
+        result = add(a, b);
+    }
+    else if (operation === '-') {
+        result = subtract(a, b);
+    }
+    else if (operation === '*') {
+        result = multiply(a, b);
+    }
+    else if (operation === '/') {
+        if (b === 0) {
+            return 'Nice Try'; // division by zero
+        }
+        result = divide(a, b);
     } else {
         return null;
     }
+    return parseFloat(result.toFixed(7));
 }
 
 
@@ -195,7 +194,7 @@ function expressionResult (a) {
     const parts = expression.split(/([\+\-\*\/])/).map(part => part.trim());     // this part splits the string and turns it into an array
 
     // this splits the array intro 3 parts: number 1, operator and number 2
-    if (parts.length === 3 && parts[2] != '0') {
+    if (parts.length === 3) {
         let numbOne = parseFloat(parts[0]);
         let operation = parts[1];
         let numbTwo = parseFloat(parts[2]);
@@ -209,7 +208,5 @@ function expressionResult (a) {
         dotCount = 0; // resets the dot count
         display.textContent = result; // displays the result
  
-    } else {
-        display.textContent = 'Nice Try';
     }
 };
