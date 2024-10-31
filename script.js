@@ -185,29 +185,47 @@ function operate (a, b, operation) {
 
 // this finishes the equation once '=' is pressed
 document.querySelector("#equal").addEventListener('click', function () {
-    expressionResult(display.textContent)
+    expressionResult(display.textContent);
 });
     
 
 
-function expressionResult (a) {
+function expressionResult(a) {
     const expression = a;
-    const parts = expression.split(/([\+\-\*\/])/).map(part => part.trim());     // this part splits the string and turns it into an array
+    const parts = expression.match(/-?\d+\.?\d*|[+\-*\/]/g);
 
-    // this splits the array intro 3 parts: number 1, operator and number 2
-    if (parts.length === 3) {
+    // Check if we have at least three parts:
+    if (parts && parts.length >= 3) {
         let numbOne = parseFloat(parts[0]);
         let operation = parts[1];
         let numbTwo = parseFloat(parts[2]);
-        if (isNaN(numbTwo)) {
-            numbTwo = numbOne;
-        };
 
-        // calls the function
+        //check if negative
+        if (parts[0].startsWith('-') && !isNaN(numbOne)) {
+            numbOne = -Math.abs(numbOne);
+        }
+
+        // this is to prevent trolling
+        if (isNaN(numbTwo)) {
+            numbTwo = numbOne; 
+        }
+
+        // Call the operation function
         let result = operate(numbOne, numbTwo, operation);
-        operatorCount = 0; // resets the operator
-        dotCount = 0; // resets the dot count
-        display.textContent = result; // displays the result
- 
+        
+        // display and reset
+        display.textContent = result; 
+        operatorCount = 0; 
+        dotCount = 0; 
+        numbOne = '';
+        numbTwo = '';
+        operation = '';
+    } else {
+        display.textContent = 'Error';
+        operatorCount = 0;
+        dotCount = 0;
+        numbOne = '';
+        numbTwo = '';
+        operation = '';
     }
-};
+}
