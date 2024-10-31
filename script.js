@@ -194,7 +194,7 @@ function expressionResult(a) {
     const expression = a;
     const parts = expression.match(/-?\d+\.?\d*|[+\-*\/]/g);
 
-    // Check if we have at least three parts:
+    // check if we have at least three parts
     if (parts && parts.length >= 3) {
         let numbOne = parseFloat(parts[0]);
         let operation = parts[1];
@@ -213,7 +213,7 @@ function expressionResult(a) {
         // Call the operation function
         let result = operate(numbOne, numbTwo, operation);
         
-        // display and reset
+        // display and reset for future calculations
         display.textContent = result; 
         operatorCount = 0; 
         dotCount = 0; 
