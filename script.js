@@ -15,12 +15,6 @@ function divide (a, b) {
     return a / b;
 };
 
-/*
-let numbOne = 10;
-let numbTwo = 5;
-let result = subtract(numbOne, numbTwo);
-console.log(result);
-/*
 
 /* operation variables */
 
@@ -38,15 +32,10 @@ document.querySelector("#clear").addEventListener('click', function () {
     operation = '';
 });
 
-let isPositive = true;
-
-document.querySelector("#plus-or-minus").addEventListener('click', function () {
-    if (isPositive) {
-        display.textContent = '-' + display.textContent;
-    } else {
-        display.textContent = display.textContent.replace('-','');
+document.querySelector("#backspace").addEventListener('click', function () {
+    if (display.textContent.length > 0) {
+        display.textContent = display.textContent.slice(0, -1);
     }
-    isPositive = !isPositive; // toggle feature
 });
 
 // PERCENTAGE
@@ -190,42 +179,36 @@ document.querySelector("#equal").addEventListener('click', function () {
     
 
 
-function expressionResult(a) {
+function expressionResult (a) {
     const expression = a;
-    const parts = expression.match(/-?\d+\.?\d*|[+\-*\/]/g);
+    const parts = expression.split(/([\+\-\*\/])/).map(part => part.trim());     // this part splits the string and turns it into an array
 
-    // check if we have at least three parts
-    if (parts && parts.length >= 3) {
+    // this splits the array intro 3 parts: number 1, operator and number 2
+
+    if (parts.length === 3) {
         let numbOne = parseFloat(parts[0]);
         let operation = parts[1];
         let numbTwo = parseFloat(parts[2]);
 
-        //check if negative
-        if (parts[0].startsWith('-') && !isNaN(numbOne)) {
-            numbOne = -Math.abs(numbOne);
-        }
-
-        // this is to prevent trolling
+        // this prevents trolling the calculator
         if (isNaN(numbTwo)) {
-            numbTwo = numbOne; 
-        }
+            numbTwo = numbOne;
+        };
 
-        // Call the operation function
+
+        // calls the function
         let result = operate(numbOne, numbTwo, operation);
-        
-        // display and reset for future calculations
-        display.textContent = result; 
-        operatorCount = 0; 
-        dotCount = 0; 
+        operatorCount = 0; // resets the operator
+        dotCount = 0; // resets the dot count
+        display.textContent = result; // displays the result
+        operation = '';
         numbOne = '';
         numbTwo = '';
-        operation = '';
+
     } else {
-        display.textContent = 'Error';
+        display.textContent = '';
+        operation = '';
         operatorCount = 0;
         dotCount = 0;
-        numbOne = '';
-        numbTwo = '';
-        operation = '';
     }
-}
+};
