@@ -161,13 +161,13 @@ function operate (a, b, operation) {
     }
     else if (operation === '/') {
         if (b === 0) {
-            return 'Nice Try'; // division by zero
+            return 'Nice Try'; // handle division by zero
         }
         result = divide(a, b);
     } else {
         return null;
     }
-    return parseFloat(result.toFixed(7));
+    return parseFloat(result.toFixed(5));
 }
 
 
@@ -178,32 +178,35 @@ document.querySelector("#equal").addEventListener('click', function () {
     
 
 
-function expressionResult(a) {
-    const expression = a.trim();
-    // this works, but it cannot subtract numbers more than 2 times
-    const parts = expression.match(/-?\d+\.?\d*|[+\-*\/]/g); // Match numbers (including negatives) and operators
-
-    // process the parts
-    if (parts && parts.length >= 3) {
-        let numbOne = parseFloat(parts[0]); 
+function expressionResult (a) {
+    const expression = a;
+    const parts = expression.split(/([\+\-\*\/])/).map(part => part.trim());     // this part splits the string and turns it into an array
+    // this splits the array intro 3 parts: number 1, operator and number 2
+    if (parts.length === 3) {
+        let numbOne = parseFloat(parts[0]);
         let operation = parts[1];
         let numbTwo = parseFloat(parts[2]);
 
-        // this is to prevent trolling
+        // this prevents trolling the calculator
         if (isNaN(numbTwo)) {
             numbTwo = numbOne;
-        }
+        };
 
-        // call the function
+
+        // calls the function
         let result = operate(numbOne, numbTwo, operation);
-        // reset everything
-        operatorCount = 0;
-        dotCount = 0;
-        display.textContent = result; 
+        operatorCount = 0; // resets the operator
+        dotCount = 0; // resets the dot count
+        display.textContent = result; // displays the result
+        operation = '';
+        numbOne = '';
+        numbTwo = '';
         console.log(result);
+
     } else {
         display.textContent = '';
+        operation = '';
         operatorCount = 0;
         dotCount = 0;
     }
-}
+};
