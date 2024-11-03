@@ -57,7 +57,7 @@ button:hover {
 #footer {
     font-style: italic;
     font-size: large;
-    font-weight: bold;
+    font-weight: 500;
     color:aliceblue;
     justify-content: center;
     align-items: center;
