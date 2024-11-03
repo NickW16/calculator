@@ -113,7 +113,6 @@ document.querySelector("#add").addEventListener('click', function () {
 });
 document.querySelector("#subtract").addEventListener('click', function () {
     if (display.textContent.length < MAX_LENGTH && operatorCount < maxOperator) {
-        operatorCount += 1;
         display.textContent += '-';
     } else {
         expressionResult(display.textContent)
@@ -136,8 +135,8 @@ document.querySelector("#divide").addEventListener('click', function () {
     }
 });
 
-let maxDot = 1;
-let dotCount = 0; // this limits dots to 1.
+let maxDot = 2;
+let dotCount = 0; // this limits dots to 2.
 
 document.querySelector("#dot").addEventListener('click', function () {
     if (display.textContent.length < MAX_LENGTH && dotCount < maxDot) {
@@ -179,36 +178,32 @@ document.querySelector("#equal").addEventListener('click', function () {
     
 
 
-function expressionResult (a) {
-    const expression = a;
-    const parts = expression.split(/([\+\-\*\/])/).map(part => part.trim());     // this part splits the string and turns it into an array
+function expressionResult(a) {
+    const expression = a.trim();
+    // this works, but it cannot subtract numbers more than 2 times
+    const parts = expression.match(/-?\d+\.?\d*|[+\-*\/]/g); // Match numbers (including negatives) and operators
 
-    // this splits the array intro 3 parts: number 1, operator and number 2
-
-    if (parts.length === 3) {
-        let numbOne = parseFloat(parts[0]);
+    // process the parts
+    if (parts && parts.length >= 3) {
+        let numbOne = parseFloat(parts[0]); 
         let operation = parts[1];
         let numbTwo = parseFloat(parts[2]);
 
-        // this prevents trolling the calculator
+        // this is to prevent trolling
         if (isNaN(numbTwo)) {
             numbTwo = numbOne;
-        };
+        }
 
-
-        // calls the function
+        // call the function
         let result = operate(numbOne, numbTwo, operation);
-        operatorCount = 0; // resets the operator
-        dotCount = 0; // resets the dot count
-        display.textContent = result; // displays the result
-        operation = '';
-        numbOne = '';
-        numbTwo = '';
-
+        // reset everything
+        operatorCount = 0;
+        dotCount = 0;
+        display.textContent = result; 
+        console.log(result);
     } else {
         display.textContent = '';
-        operation = '';
         operatorCount = 0;
         dotCount = 0;
     }
-};
+}
